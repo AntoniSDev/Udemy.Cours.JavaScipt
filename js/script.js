@@ -10,7 +10,7 @@ var string1 = "hello";
 var string2 = "you";
 
 
-var myNewString = string1 + " " + string2;
+var myNewString = string1 + string2;
 
 
 console.log(myNewString);
