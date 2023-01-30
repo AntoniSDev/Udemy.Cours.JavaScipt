@@ -9,6 +9,7 @@ window.onload = function()
     var applee;
     var widthInBlocks = canvasWidth/blockSize;
     var heightInBlocks = canvasHeight/blockSize;
+    var score
 
     init();
 
@@ -20,8 +21,9 @@ window.onload = function()
         canvas.style.border = "1px solid";
         document.body.appendChild(canvas);
         ctx = canvas.getContext('2d');
-        snakee = new Snake([[6,4], [5,4], [4,4], [3,4], [2,4], [1,4]], "right");
+        snakee = new Snake([[2,4], [1,4]], "right");
         applee = new Apple([10,10]);
+        score = 0;
         refreshCanvas();
     }
 
@@ -30,12 +32,13 @@ window.onload = function()
         snakee.advance();
         if (snakee.checkCollision())
         {
-             // game over
+            gameOver();
         }
         else
         {
             if(snakee.isEatingApple(applee))
             {
+                score++
                 snakee.ateApple = true;
                 do
                 {
@@ -46,9 +49,32 @@ window.onload = function()
             ctx.clearRect(0,0,canvasWidth, canvasHeight);        
             snakee.draw();
             applee.draw();
+            drawScore()
             setTimeout(refreshCanvas,delay);
         }
     
+    }
+    function gameOver()
+    {
+        ctx.save();
+        ctx.fillText("Bouuuh t'as perdu gros noob", 5 , 15);
+        ctx.fillText("Appuye sur la touche Espace pour rejouer", 5 , 30);
+        ctx.restore();
+    }
+
+    function restart()
+    {
+        snakee = new Snake([[2,4], [1,4]], "right");
+        applee = new Apple([10,10]);
+        score = 0;
+        refreshCanvas();
+    }
+
+    function drawScore()
+    {
+        ctx.save();
+        ctx.fillText(score.toString(), 5, canvasHeight - 5);        
+        ctx.restore();
     }
 
     function drawBlock(ctx, position)
