@@ -61,8 +61,8 @@ window.onload = function(){
         ctx.lineWidth = 5;
         var centreX = canvasWidth / 2;
         var centreY = canvasHeight / 2;
-        ctx.strokeText("Bouhh t'es nul", centreX, centreY - 180);
-        ctx.fillText("Bouhh t'es nul", centreX, centreY - 180);
+        ctx.strokeText("Bouhh", centreX, centreY - 180);
+        ctx.fillText("Bouhh", centreX, centreY - 180);
         ctx.font = "bold 30px sans-serif";
         ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);
         ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);
