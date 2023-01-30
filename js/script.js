@@ -4,9 +4,11 @@ window.onload = function()
     var canvasHeight = 600
     var blockSize = 30;
     var ctx;
-    var delay = 125;
+    var delay = 150;
     var snakee;
     var applee;
+    var withInBLocks = canvasWidth/blockSize;
+    var heightInBlocks = canvasHeight/blockSize;
 
     init();
 
@@ -25,11 +27,18 @@ window.onload = function()
 
     function refreshCanvas()
     {
-        ctx.clearRect(0,0,canvasWidth, canvasHeight);
         snakee.advance();
-        snakee.draw();
-        applee.draw();
-        setTimeout(refreshCanvas,delay);
+        if (snakee.checkCollision())
+        {
+             // game over
+        }
+        else{
+            ctx.clearRect(0,0,canvasWidth, canvasHeight);        
+            snakee.draw();
+            applee.draw();
+            setTimeout(refreshCanvas,delay);
+        }
+    
     }
 
     function drawBlock(ctx, position)
@@ -98,6 +107,42 @@ window.onload = function()
             {
                 this.direction = newDirection;
             }
+
+          
+
+
+
+
+        };
+        this.checkCollision = function()
+        {
+            var wallColision = false;
+            var snakeColision = false;
+            var head = this.body[0];
+            var rest = this.body.slice(1);
+            var snakeX = head[0];
+            var snakeY = head[1];
+            var minX = 0;
+            var minY = 0;
+            var maxX = withInBLocks -1;
+            var maxY = heightInBlocks -1;
+            var isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
+            var isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY;
+
+            if(isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls)
+            {
+                wallColision = true;
+            }
+
+            for (var i = 0; i <rest.lenght ; i++)
+            {
+                if(snakeX === rest[i][0] && snakeY === rest[i][1])
+                {
+                    snakeColision = true
+                }
+            }
+
+            return wallColision || snakeColision
         };
     }
     
