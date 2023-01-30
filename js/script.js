@@ -4,10 +4,10 @@ window.onload = function()
     var canvasHeight = 600
     var blockSize = 30;
     var ctx;
-    var delay = 150;
+    var delay = 300;
     var snakee;
     var applee;
-    var withInBLocks = canvasWidth/blockSize;
+    var widthInBlocks = canvasWidth/blockSize;
     var heightInBlocks = canvasHeight/blockSize;
 
     init();
@@ -20,7 +20,7 @@ window.onload = function()
         canvas.style.border = "1px solid";
         document.body.appendChild(canvas);
         ctx = canvas.getContext('2d');
-        snakee = new Snake([[6,4], [5,4], [4,4]], "right");
+        snakee = new Snake([[6,4], [5,4], [4,4], [3,4], [2,4], [1,4]], "right");
         applee = new Apple([10,10]);
         refreshCanvas();
     }
@@ -114,35 +114,31 @@ window.onload = function()
 
 
         };
-        this.checkCollision = function()
-        {
-            var wallColision = false;
-            var snakeColision = false;
+        
+        this.checkCollision = function(){
+            var wallCollision = false;
+            var snakeCollision = false;
             var head = this.body[0];
             var rest = this.body.slice(1);
             var snakeX = head[0];
             var snakeY = head[1];
             var minX = 0;
             var minY = 0;
-            var maxX = withInBLocks -1;
-            var maxY = heightInBlocks -1;
+            var maxX = widthInBlocks - 1;
+            var maxY = heightInBlocks - 1;
             var isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
             var isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY;
 
-            if(isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls)
-            {
-                wallColision = true;
+            if (isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls)
+            wallCollision = true;
+            
+            for (var i=0 ; i<rest.length ; i++){
+                if (snakeX === rest[i][0] && snakeY === rest[i][1])
+                    snakeCollision = true;                
             }
 
-            for (var i = 0; i <rest.lenght ; i++)
-            {
-                if(snakeX === rest[i][0] && snakeY === rest[i][1])
-                {
-                    snakeColision = true
-                }
-            }
+            return wallCollision || snakeCollision;
 
-            return wallColision || snakeColision
         };
     }
     
